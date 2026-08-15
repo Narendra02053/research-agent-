@@ -1,3 +1,4 @@
+# Dockerfile - Docker configuration for building the frontend image.
 # Build stage
 FROM node:20-alpine AS builder
 

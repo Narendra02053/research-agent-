@@ -1,3 +1,4 @@
+# rag_instrumentation.py - Instrumentation for RAG tracing.
 """
 rag_instrumentation.py
 ─────────────────────────────────────────────────────────────────

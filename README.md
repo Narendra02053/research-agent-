@@ -1,3 +1,4 @@
+<!-- README.md - Main project documentation and overview. -->
 # AI Deep Research Agent
 
 A full-stack, production-ready AI research platform that leverages LangGraph, FastAPI, Celery, and React to autonomously plan, search, retrieve, synthesize, and evaluate comprehensive research reports.

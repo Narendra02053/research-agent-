@@ -1,3 +1,4 @@
+// Dashboard.jsx - Main dashboard page component.
 import { useResearchStream } from '../hooks/useResearchStream';
 import ResearchForm from '../components/ResearchForm';
 import WorkflowTimeline from '../components/research/WorkflowTimeline';

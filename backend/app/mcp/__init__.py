@@ -1,3 +1,4 @@
+# __init__.py - Initialization for the Model Context Protocol module.
 from app.mcp.tool_registry import get_tool_registry
 from app.mcp.tools.search_tool import SearchTool
 from app.mcp.tools.extraction_tool import ExtractionTool

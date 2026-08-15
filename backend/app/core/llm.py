@@ -1,3 +1,4 @@
+# llm.py - Core Large Language Model initialization.
 """
 app/core/llm.py
 Production-grade LLM gateway with:

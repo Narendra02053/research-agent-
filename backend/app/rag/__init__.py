@@ -1,3 +1,4 @@
+# __init__.py - Initialization for Retrieval-Augmented Generation.
 """
 rag module.
 Contains Retrieval-Augmented Generation logic, including HuggingFace embeddings,

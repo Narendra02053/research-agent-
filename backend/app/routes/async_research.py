@@ -1,3 +1,4 @@
+# async_research.py - API endpoints for asynchronous research.
 """
 async_research.py
 Async-first research endpoints.

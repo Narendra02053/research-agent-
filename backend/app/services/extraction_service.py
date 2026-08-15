@@ -1,3 +1,4 @@
+# extraction_service.py - Service for extracting structured data.
 import logging
 import trafilatura
 from app.core.cache import get_cache

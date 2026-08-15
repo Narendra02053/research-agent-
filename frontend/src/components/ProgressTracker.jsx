@@ -1,3 +1,4 @@
+// ProgressTracker.jsx - Component tracking background job progress.
 import { motion } from 'framer-motion';
 import { Loader2, CheckCircle, Search, FileText, Database, GitMerge, FileSearch } from 'lucide-react';
 

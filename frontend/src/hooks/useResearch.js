@@ -1,3 +1,4 @@
+// useResearch.js - Custom hook for managing research state.
 import { useState, useEffect, useCallback } from 'react';
 import { researchApi } from '../api/client';
 

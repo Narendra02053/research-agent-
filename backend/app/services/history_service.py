@@ -1,3 +1,4 @@
+# history_service.py - Manages conversation and research history.
 """
 history_service.py
 Maintains a chronological research history with citations and metadata.

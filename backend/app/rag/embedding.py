@@ -1,3 +1,4 @@
+# embedding.py - Embedding generation for documents.
 import logging
 from langchain_huggingface import HuggingFaceEmbeddings
 

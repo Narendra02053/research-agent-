@@ -1,3 +1,4 @@
+# job_models.py - Pydantic models for background jobs.
 """
 job_models.py
 Pydantic models for research jobs, task metadata, execution metrics, and failure reports.

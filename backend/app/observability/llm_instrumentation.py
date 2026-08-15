@@ -1,3 +1,4 @@
+# llm_instrumentation.py - Instrumentation for LLM tracing.
 """
 llm_instrumentation.py
 ─────────────────────────────────────────────────────────────────

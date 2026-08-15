@@ -1,3 +1,4 @@
+# research_tasks.py - Celery tasks for asynchronous research execution.
 """
 research_tasks.py
 Celery tasks that execute the full LangGraph research workflow in the background.

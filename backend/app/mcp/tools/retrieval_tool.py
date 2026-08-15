@@ -1,3 +1,4 @@
+# retrieval_tool.py - MCP tool for document retrieval.
 from typing import Any
 from app.mcp.base_tool import BaseTool
 from app.rag.vector_store import get_vector_store

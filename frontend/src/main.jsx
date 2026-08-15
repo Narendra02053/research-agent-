@@ -1,3 +1,4 @@
+// main.jsx - Frontend application entry point and React root rendering.
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'

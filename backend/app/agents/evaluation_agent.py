@@ -1,3 +1,4 @@
+# evaluation_agent.py - Agent for evaluating research findings.
 """
 evaluation_agent.py
 Runs hallucination check and answer scoring in PARALLEL using ThreadPoolExecutor.

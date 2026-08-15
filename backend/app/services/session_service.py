@@ -1,3 +1,4 @@
+# session_service.py - Manages user sessions.
 """
 session_service.py
 Manages research session lifecycle: ID generation, status tracking,

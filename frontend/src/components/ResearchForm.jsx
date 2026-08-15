@@ -1,3 +1,4 @@
+// ResearchForm.jsx - Form component for starting new research.
 import { useState } from 'react';
 import { Search, X } from 'lucide-react';
 

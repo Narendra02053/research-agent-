@@ -1,3 +1,4 @@
+// ReportViewer.jsx - Component for viewing generated reports.
 import { FileText } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 

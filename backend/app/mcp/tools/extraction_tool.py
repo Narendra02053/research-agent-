@@ -1,3 +1,4 @@
+# extraction_tool.py - MCP tool for data extraction.
 from typing import Any
 from app.mcp.base_tool import BaseTool
 from app.services.extraction_service import get_extraction_service

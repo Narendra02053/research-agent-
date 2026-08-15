@@ -1,3 +1,4 @@
+// MetricsDashboard.jsx - Component displaying research metrics.
 import { Activity, ShieldCheck, AlertOctagon, CheckCircle2 } from 'lucide-react';
 
 export default function MetricsDashboard({ metrics }) {

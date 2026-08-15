@@ -1,3 +1,4 @@
+// useResearchStream.js - Custom hook for managing WebSocket research streams.
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { researchApi } from '../api/client';
 

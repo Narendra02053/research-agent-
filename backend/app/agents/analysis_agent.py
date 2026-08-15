@@ -1,3 +1,4 @@
+# analysis_agent.py - Agent responsible for analyzing research data.
 """
 analysis_agent.py
 OPTIMIZED: Merged Analysis + Report into ONE LLM call.

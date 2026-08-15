@@ -1,3 +1,4 @@
+# event_models.py - Models for real-time WebSocket events.
 from typing import Any, Dict, Optional
 from pydantic import BaseModel, Field
 

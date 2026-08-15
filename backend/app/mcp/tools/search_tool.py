@@ -1,3 +1,4 @@
+# search_tool.py - MCP tool for searching information.
 from typing import Any
 from app.mcp.base_tool import BaseTool
 from app.services.search_service import get_search_service

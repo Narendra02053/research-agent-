@@ -1,3 +1,4 @@
+# websocket_manager.py - Manages WebSocket connections and broadcasting.
 import logging
 from typing import Dict, List
 from fastapi import WebSocket, WebSocketDisconnect

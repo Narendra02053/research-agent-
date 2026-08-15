@@ -1,3 +1,4 @@
+# reranker.py - Reranks retrieved documents for better relevance.
 import logging
 import time
 from typing import List, Dict, Any

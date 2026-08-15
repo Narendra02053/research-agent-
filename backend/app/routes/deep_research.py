@@ -1,3 +1,4 @@
+# deep_research.py - API endpoints for deep research features.
 import logging
 import asyncio
 from fastapi import APIRouter, HTTPException, Depends

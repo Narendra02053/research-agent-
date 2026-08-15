@@ -1,3 +1,4 @@
+# router.py - Routes LLM requests to appropriate providers.
 """
 router.py
 Central LLM gateway — single entry point for all LLM calls in the platform.

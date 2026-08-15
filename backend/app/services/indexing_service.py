@@ -1,3 +1,4 @@
+# indexing_service.py - Service for indexing documents into the vector store.
 import logging
 from typing import List, Dict, Any
 from app.rag.chunker import ContentChunker

@@ -1,3 +1,4 @@
+# logging_config.py - Configuration for application logging.
 """
 logging_config.py
 Configures structured, production-grade JSON logging with correlation IDs,

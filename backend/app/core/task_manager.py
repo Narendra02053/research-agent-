@@ -1,3 +1,4 @@
+# task_manager.py - Management of asynchronous tasks.
 """
 task_manager.py
 Production-grade task orchestration with:

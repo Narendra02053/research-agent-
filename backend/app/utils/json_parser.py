@@ -1,3 +1,4 @@
+# json_parser.py - Utility for robust JSON parsing.
 import json
 import re
 import logging

@@ -1,3 +1,4 @@
+# base_tool.py - Base class for MCP tools.
 from abc import ABC, abstractmethod
 from typing import Any, Dict
 

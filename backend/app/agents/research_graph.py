@@ -1,3 +1,4 @@
+# research_graph.py - LangGraph definitions for the research workflow.
 from langgraph.graph import StateGraph, END
 from app.models.state import ResearchState
 from app.agents.planner_agent import planner_node

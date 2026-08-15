@@ -1,3 +1,4 @@
+# Makefile - Build and deployment commands for the project.
 .PHONY: help install test lint format up down build
 
 help:

@@ -1,3 +1,4 @@
+# graph_store.py - Storage interface for the knowledge graph.
 """
 graph_store.py
 Thread-safe in-memory Knowledge Graph store with JSON persistence.

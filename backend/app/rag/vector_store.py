@@ -1,3 +1,4 @@
+# vector_store.py - Vector database interface (e.g., Qdrant).
 import time
 import logging
 from typing import List, Dict, Any, Optional

@@ -1,3 +1,4 @@
+// SourceViewer.jsx - Component for viewing research sources.
 import { ExternalLink, ShieldCheck } from 'lucide-react';
 
 export default function SourceViewer({ sources }) {

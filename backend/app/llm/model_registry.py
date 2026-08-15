@@ -1,3 +1,4 @@
+# model_registry.py - Registry of available LLM models.
 """
 model_registry.py
 Central registry of all models, their capabilities, token limits and pricing.

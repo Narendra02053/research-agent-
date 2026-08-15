@@ -1,3 +1,4 @@
+# conftest.py - Fixtures and configuration for backend tests.
 """
 Shared test fixtures for core module tests.
 """

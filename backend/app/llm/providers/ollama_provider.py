@@ -1,3 +1,4 @@
+# ollama_provider.py - Ollama integration for local LLM.
 """
 ollama_provider.py
 Local Ollama provider — no API key required.

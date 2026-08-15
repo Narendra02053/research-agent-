@@ -1,3 +1,4 @@
+# agentic_research.py - API endpoints for agentic research workflows.
 """
 agentic_research.py  (Step 6 upgrade)
 POST /agentic-research

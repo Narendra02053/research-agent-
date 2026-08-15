@@ -1,3 +1,4 @@
+# job_service.py - Manages background jobs and their status.
 """
 job_service.py
 Manages job lifecycle: creation, status updates, result storage, and retrieval.

@@ -1,3 +1,4 @@
+# relevance_evaluator.py - Evaluates relevance of retrieved documents.
 """
 relevance_evaluator.py
 Evaluates semantic relevance of retrieved chunks against the original query using embeddings and reranker scores.

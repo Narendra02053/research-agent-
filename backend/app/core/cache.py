@@ -1,3 +1,4 @@
+# cache.py - Caching mechanisms and Redis configuration.
 """
 cache.py
 Production-grade Redis-backed caching layer with:

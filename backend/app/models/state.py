@@ -1,3 +1,4 @@
+# state.py - State management models for the application.
 from typing import TypedDict, List, Dict, Any
 
 class ResearchState(TypedDict):

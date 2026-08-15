@@ -1,3 +1,4 @@
+# report_tool.py - MCP tool for report generation.
 from typing import Any, List, Dict
 from app.mcp.base_tool import BaseTool
 from app.core.llm import get_llm_service

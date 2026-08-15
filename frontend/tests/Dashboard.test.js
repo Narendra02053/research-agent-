@@ -1,3 +1,4 @@
+// Dashboard.test.js - Tests for the Dashboard component.
 import { describe, it, expect } from 'vitest';
 
 describe('Dashboard Component', () => {

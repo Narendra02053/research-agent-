@@ -1,3 +1,4 @@
+# frontend-ci.yml - CI workflow for building and testing the frontend.
 name: Frontend CI
 
 on:

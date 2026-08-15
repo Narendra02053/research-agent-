@@ -1,3 +1,4 @@
+# graph_builder.py - Builds and manages the knowledge graph.
 """
 graph_builder.py
 Coordinates entity/relation extraction and constructs the knowledge graph.

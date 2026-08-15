@@ -1,3 +1,4 @@
+# memory.py - Memory management for conversation history.
 """
 memory.py
 Production-grade research session memory backed by Redis with:

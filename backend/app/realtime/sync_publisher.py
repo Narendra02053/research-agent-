@@ -1,3 +1,4 @@
+# sync_publisher.py - Publishes real-time events synchronously.
 """
 sync_publisher.py
 Thread-safe Redis pub/sub for Celery workers and other sync contexts.

@@ -1,3 +1,4 @@
+# report_agent.py - Agent for compiling and generating research reports.
 """
 report_agent.py
 Optimized: This node is now a no-op because report generation is done in the merged analysis node.

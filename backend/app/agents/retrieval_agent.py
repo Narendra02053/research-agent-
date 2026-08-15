@@ -1,3 +1,4 @@
+# retrieval_agent.py - Agent for retrieving context from vector stores.
 import logging
 from concurrent.futures import ThreadPoolExecutor, as_completed
 

@@ -1,3 +1,4 @@
+# api_models.py - Pydantic models for API requests and responses.
 """
 api_models.py
 Standardized API request and response wrappers.

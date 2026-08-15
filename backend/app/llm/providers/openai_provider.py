@@ -1,3 +1,4 @@
+# openai_provider.py - OpenAI integration for LLM.
 """
 openai_provider.py
 LLM provider implementation for OpenAI GPT models.

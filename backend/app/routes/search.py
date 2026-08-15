@@ -1,3 +1,4 @@
+# search.py - API endpoints for search functionality.
 import logging
 import asyncio
 from typing import List

@@ -1,3 +1,4 @@
+# dependencies.py - FastAPI dependencies for injection.
 """
 dependencies.py
 Production-grade dependency injection with:

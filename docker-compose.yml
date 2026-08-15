@@ -1,3 +1,4 @@
+# docker-compose.yml - Docker Compose configuration for running the application stack.
 version: '3.8'
 
 services:

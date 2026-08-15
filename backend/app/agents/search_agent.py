@@ -1,3 +1,4 @@
+# search_agent.py - Agent for performing web searches.
 import logging
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from app.models.state import ResearchState

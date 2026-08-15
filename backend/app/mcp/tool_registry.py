@@ -1,3 +1,4 @@
+# tool_registry.py - Registry for available MCP tools.
 from typing import Dict, List, Any
 from app.mcp.base_tool import BaseTool
 

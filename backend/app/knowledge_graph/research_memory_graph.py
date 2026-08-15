@@ -1,3 +1,4 @@
+# research_memory_graph.py - Manages graph representation of research memory.
 """
 research_memory_graph.py
 Singleton manager for persistent long-term research memory across sessions.

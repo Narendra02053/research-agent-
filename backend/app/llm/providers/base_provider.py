@@ -1,3 +1,4 @@
+# base_provider.py - Base interface for LLM providers.
 """
 base_provider.py
 Abstract base class for all LLM providers.

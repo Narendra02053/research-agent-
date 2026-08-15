@@ -1,3 +1,4 @@
+# answer_scorer.py - Logic for scoring generated answers.
 """
 answer_scorer.py
 Evaluates the clarity, completeness, and formatting of the generated answer using an LLM.

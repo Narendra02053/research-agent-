@@ -1,3 +1,4 @@
+# chunker.py - Logic for chunking documents for indexing.
 import uuid
 import logging
 from typing import List, Dict, Any

@@ -1,3 +1,4 @@
+# token_monitor.py - Monitors LLM token usage and limits.
 """
 token_monitor.py
 Tracks per-request token usage and estimates cost.

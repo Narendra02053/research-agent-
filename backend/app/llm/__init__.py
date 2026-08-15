@@ -1,3 +1,4 @@
+# __init__.py - Initialization for the LLM abstractions.
 from app.llm.router import get_llm_router, get_llm_service
 from app.llm.model_registry import MODEL_REGISTRY, TASK_MODEL_MAP
 

@@ -1,3 +1,4 @@
+# main.py - Main FastAPI application entry point.
 import threading
 from fastapi import FastAPI
 from dotenv import load_dotenv

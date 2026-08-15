@@ -1,3 +1,4 @@
+# aws_deploy.py - Script to deploy the application to AWS.
 import os
 import sys
 import time

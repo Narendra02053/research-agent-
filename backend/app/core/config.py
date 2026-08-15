@@ -1,3 +1,4 @@
+# config.py - Application configuration and environment variables.
 """
 config.py
 Centralized configuration management using Pydantic Settings v2.

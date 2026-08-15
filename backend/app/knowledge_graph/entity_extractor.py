@@ -1,3 +1,4 @@
+# entity_extractor.py - Extracts entities for the knowledge graph.
 """
 entity_extractor.py
 Extracts named entities from research content using LLM-based structured extraction.

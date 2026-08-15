@@ -1,3 +1,4 @@
+# tool_executor.py - Executes MCP tools.
 import logging
 from typing import Any, Dict
 from app.core.logging_config import timed

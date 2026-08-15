@@ -1,3 +1,4 @@
+# graph_query_engine.py - Engine for querying the knowledge graph.
 """
 graph_query_engine.py
 Semantic keyword-to-entity lookup and neighborhood analysis for knowledge graph.

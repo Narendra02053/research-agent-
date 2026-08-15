@@ -1,3 +1,4 @@
+# celery_app.py - Celery application configuration for background tasks.
 """
 celery_app.py
 Initializes the Celery application with Redis as the message broker.

@@ -1,3 +1,4 @@
+// vite.config.js - Vite bundler configuration for the frontend.
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'

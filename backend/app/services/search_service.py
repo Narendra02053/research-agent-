@@ -1,3 +1,4 @@
+# search_service.py - Core logic for performing searches.
 import os
 import logging
 from typing import List, Dict

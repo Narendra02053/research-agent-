@@ -1,3 +1,4 @@
+# security.py - Security and authentication utilities.
 """
 security.py
 Production-grade security foundations:

@@ -1,3 +1,4 @@
+# test_rag.py - Tests for RAG components.
 import pytest
 from app.rag.chunker import ContentChunker
 

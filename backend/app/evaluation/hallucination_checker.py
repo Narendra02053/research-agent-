@@ -1,3 +1,4 @@
+# hallucination_checker.py - Checks for hallucinations in generated content.
 """
 hallucination_checker.py
 Verifies generated answers against retrieved context to detect unsupported and supported claims.

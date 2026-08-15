@@ -1,3 +1,4 @@
+# fallback_manager.py - Manages fallback logic for LLM providers.
 """
 fallback_manager.py
 Executes an LLM request through an ordered chain of providers,

@@ -1,3 +1,4 @@
+<!-- PHOENIX_OBSERVABILITY.md - Documentation for Phoenix observability setup. -->
 # LLM & RAG Observability with Arize Phoenix
 
 This document outlines the architecture, implementation steps, and usage guide for **Arize Phoenix** observability integrated into the AI Deep Research Agent platform.

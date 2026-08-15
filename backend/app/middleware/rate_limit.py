@@ -1,3 +1,4 @@
+# rate_limit.py - Middleware for API rate limiting.
 """
 rate_limit.py
 Basic rate-limiting middleware to protect expensive endpoints.

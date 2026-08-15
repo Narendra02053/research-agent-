@@ -1,3 +1,4 @@
+# research_quality.py - Assesses the overall quality of research.
 """
 research_quality.py
 Aggregates source quality, retrieval quality, grounding quality, and answer quality

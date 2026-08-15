@@ -1,3 +1,4 @@
+# context_builder.py - Builds context from retrieved documents for LLMs.
 import logging
 from typing import List, Dict, Any
 

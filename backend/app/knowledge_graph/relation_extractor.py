@@ -1,3 +1,4 @@
+# relation_extractor.py - Extracts relationships between entities.
 """
 relation_extractor.py
 Extracts typed, directional relationships between entities from research content.

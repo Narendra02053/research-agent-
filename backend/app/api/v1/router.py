@@ -1,3 +1,4 @@
+# router.py - Main API router for version 1 endpoints.
 """
 router.py
 Centralized API router for v1 endpoints.

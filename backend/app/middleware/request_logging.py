@@ -1,3 +1,4 @@
+# request_logging.py - Middleware for logging API requests.
 """
 request_logging.py
 Middleware for logging incoming HTTP requests and execution timing.

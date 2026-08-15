@@ -1,3 +1,4 @@
+// LiveResearchFeed.jsx - Component displaying live updates from research tasks.
 import { useEffect, useRef } from 'react';
 import { Terminal } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';

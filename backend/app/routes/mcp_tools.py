@@ -1,3 +1,4 @@
+# mcp_tools.py - API endpoints for MCP tools integration.
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 from typing import Any, Dict, List

@@ -1,3 +1,4 @@
+# stream_service.py - Service for managing data streams.
 import os
 import json
 import time

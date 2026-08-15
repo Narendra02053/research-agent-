@@ -1,3 +1,4 @@
+# rerank_tool.py - MCP tool for document reranking.
 from typing import Any, List, Dict
 from app.mcp.base_tool import BaseTool
 from app.rag.reranker import get_reranker_service

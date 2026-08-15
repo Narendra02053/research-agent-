@@ -1,3 +1,4 @@
+# phoenix_tracer.py - Arize Phoenix integration for tracing.
 """
 phoenix_tracer.py
 ─────────────────────────────────────────────────────────────────

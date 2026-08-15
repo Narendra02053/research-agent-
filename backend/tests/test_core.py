@@ -1,3 +1,4 @@
+# test_core.py - Tests for core application functionality.
 """
 Comprehensive unit tests for backend/app/core modules.
 Covers: config, logging_config, security, cache, memory, dependencies, llm, task_manager

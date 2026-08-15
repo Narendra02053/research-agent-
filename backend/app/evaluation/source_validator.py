@@ -1,3 +1,4 @@
+# source_validator.py - Validates the credibility of sources.
 """
 source_validator.py
 Evaluates source credibility and scores domains based on trustworthiness using multiple signals:
