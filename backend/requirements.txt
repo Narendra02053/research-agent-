@@ -1,0 +1,16 @@
+fastapi
+uvicorn
+langchain
+langgraph
+qdrant-client
+sentence-transformers
+langchain-community
+langchain-huggingface
+langchain-qdrant
+tavily-python
+trafilatura
+python-dotenv
+langchain-groq
+
+redis
+celery

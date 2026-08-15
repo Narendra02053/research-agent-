@@ -1,0 +1,59 @@
+import logging
+import time
+from typing import List, Dict, Any
+from sentence_transformers import CrossEncoder
+
+logger = logging.getLogger(__name__)
+
+class RerankerService:
+    """
+    Singleton-style initialization for HuggingFace reranker model.
+    Optimizes for research-style answers by re-scoring semantic chunks.
+    """
+    _instance = None
+    
+    def __new__(cls):
+        if cls._instance is None:
+            logger.info("Initializing HuggingFace Reranker model: BAAI/bge-reranker-base")
+            cls._instance = super(RerankerService, cls).__new__(cls)
+            try:
+                cls._instance.model = CrossEncoder('BAAI/bge-reranker-base', max_length=512, device='cpu')
+            except Exception as e:
+                logger.error(f"Failed to initialize reranker: {str(e)}")
+                cls._instance.model = None
+        return cls._instance
+
+    def rerank_results(self, query: str, retrieved_chunks: List[Dict[str, Any]], top_k: int = 5) -> List[Dict[str, Any]]:
+        """
+        Rerank retrieved semantic search results to improve relevance.
+        """
+        if not retrieved_chunks or not self.model:
+            return retrieved_chunks[:top_k]
+            
+        start_time = time.time()
+        logger.info(f"Reranking {len(retrieved_chunks)} chunks for query: '{query}'")
+        
+        try:
+            # Prepare pairs for the CrossEncoder
+            pairs = [[query, chunk.get("content", "")] for chunk in retrieved_chunks]
+            
+            # Calculate scores
+            scores = self.model.predict(pairs)
+            
+            # Attach scores and sort
+            for idx, chunk in enumerate(retrieved_chunks):
+                chunk["rerank_score"] = float(scores[idx])
+                
+            # Sort in descending order of relevance score
+            retrieved_chunks.sort(key=lambda x: x.get("rerank_score", 0), reverse=True)
+            
+            elapsed = time.time() - start_time
+            logger.info(f"Reranking completed in {elapsed:.2f} seconds")
+            
+            return retrieved_chunks[:top_k]
+        except Exception as e:
+            logger.error(f"Reranking failed: {str(e)}")
+            return retrieved_chunks[:top_k]
+
+def get_reranker_service() -> RerankerService:
+    return RerankerService()
