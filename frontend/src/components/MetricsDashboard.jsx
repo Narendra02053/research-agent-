@@ -1,37 +1,49 @@
 import { Activity, ShieldCheck, AlertOctagon, CheckCircle2 } from 'lucide-react';
 
 export default function MetricsDashboard({ metrics }) {
-  if (!metrics) return null;
+  if (!metrics || Object.keys(metrics).length === 0 || metrics.overall_confidence === undefined) {
+    return null;
+  }
 
   const getScoreColor = (score, inverse = false) => {
+    if (score === undefined || score === null || isNaN(score)) {
+      return 'text-gray-400';
+    }
     if (inverse) {
       return score < 0.2 ? 'text-green-400' : score < 0.5 ? 'text-yellow-400' : 'text-red-400';
     }
     return score > 0.8 ? 'text-green-400' : score > 0.6 ? 'text-yellow-400' : 'text-red-400';
   };
 
+  const formatValue = (val) => {
+    if (val === undefined || val === null || isNaN(val)) {
+      return 'N/A';
+    }
+    return `${(val * 100).toFixed(0)}%`;
+  };
+
   const cards = [
     {
       label: 'Overall Confidence',
-      value: `${(metrics.overall_confidence * 100).toFixed(0)}%`,
+      value: formatValue(metrics.overall_confidence),
       icon: Activity,
       color: getScoreColor(metrics.overall_confidence)
     },
     {
       label: 'Grounding Score',
-      value: `${(metrics.grounding_score * 100).toFixed(0)}%`,
+      value: formatValue(metrics.grounding_score),
       icon: ShieldCheck,
       color: getScoreColor(metrics.grounding_score)
     },
     {
       label: 'Hallucination Risk',
-      value: `${(metrics.hallucination_risk * 100).toFixed(0)}%`,
+      value: formatValue(metrics.hallucination_risk),
       icon: AlertOctagon,
       color: getScoreColor(metrics.hallucination_risk, true)
     },
     {
       label: 'Source Quality',
-      value: `${(metrics.source_quality * 100).toFixed(0)}%`,
+      value: formatValue(metrics.source_quality),
       icon: CheckCircle2,
       color: getScoreColor(metrics.source_quality)
     }
