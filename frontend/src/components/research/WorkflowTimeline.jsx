@@ -2,14 +2,14 @@ import { motion } from 'framer-motion';
 import { Loader2, CheckCircle, Search, FileText, Database, GitMerge, FileSearch } from 'lucide-react';
 
 const steps = [
-  { id: 'initializing', label: 'Initializing', icon: Loader2 },
-  { id: 'planner', label: 'Planning', icon: FileText },
-  { id: 'search', label: 'Searching Web', icon: Search },
-  { id: 'retrieval', label: 'Retrieving Knowledge', icon: Database },
-  { id: 'analysis', label: 'Synthesizing', icon: GitMerge },
-  { id: 'report', label: 'Drafting Report', icon: FileText },
-  { id: 'evaluation', label: 'Evaluating', icon: FileSearch },
-  { id: 'done', label: 'Complete', icon: CheckCircle },
+  { id: 'initializing', label: 'Init', icon: Loader2, accent: '#FFE500' },
+  { id: 'planner', label: 'Plan', icon: FileText, accent: '#3DFFE8' },
+  { id: 'search', label: 'Search', icon: Search, accent: '#B0FF3D' },
+  { id: 'retrieval', label: 'Retrieve', icon: Database, accent: '#FFE500' },
+  { id: 'analysis', label: 'Synth', icon: GitMerge, accent: '#FF6B35' },
+  { id: 'report', label: 'Draft', icon: FileText, accent: '#3DFFE8' },
+  { id: 'evaluation', label: 'Evaluate', icon: FileSearch, accent: '#B0FF3D' },
+  { id: 'done', label: 'Done', icon: CheckCircle, accent: '#B0FF3D' },
 ];
 
 export default function WorkflowTimeline({ progress, currentStep }) {
@@ -17,59 +17,132 @@ export default function WorkflowTimeline({ progress, currentStep }) {
   const activeIndex = currentStepIndex === -1 ? 0 : currentStepIndex;
 
   return (
-    <div className="w-full max-w-4xl mx-auto bg-white rounded-2xl p-8 border border-slate-200 shadow-sm mt-8">
-      <div className="flex items-center justify-between mb-6">
-        <h3 className="text-xl font-extrabold text-slate-900 flex items-center gap-3">
-          <Loader2 className="animate-spin text-blue-600" size={22} />
-          Research in Progress
-        </h3>
-        <span className="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-orange-500">
+    <div style={{
+      width: '100%',
+      maxWidth: '860px',
+      margin: '32px auto 0',
+      background: '#FAFAF0',
+      border: '3px solid #0A0A0A',
+      boxShadow: '6px 6px 0 #0A0A0A',
+    }}>
+      {/* Header */}
+      <div style={{
+        background: '#0A0A0A',
+        padding: '12px 24px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+      }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <Loader2
+            size={18}
+            color="#FFE500"
+            style={{ animation: 'spin 1s linear infinite' }}
+          />
+          <span style={{
+            color: '#FFE500',
+            fontFamily: "'Space Grotesk', sans-serif",
+            fontWeight: 700,
+            fontSize: '0.85rem',
+            textTransform: 'uppercase',
+            letterSpacing: '0.1em',
+          }}>
+            Research in Progress
+          </span>
+        </div>
+        <span style={{
+          color: '#FF3D77',
+          fontFamily: "'Space Mono', monospace",
+          fontWeight: 700,
+          fontSize: '1.4rem',
+          letterSpacing: '-0.02em',
+        }}>
           {progress}%
         </span>
       </div>
 
-      {/* Progress Bar */}
-      <div className="relative">
-        <div className="overflow-hidden h-2.5 mb-8 rounded-full bg-slate-100">
+      <div style={{ padding: '24px' }}>
+        {/* Progress bar */}
+        <div style={{
+          height: '12px',
+          background: '#e8e3d8',
+          border: '2px solid #0A0A0A',
+          marginBottom: '24px',
+          position: 'relative',
+          overflow: 'hidden',
+        }}>
           <motion.div
             initial={{ width: 0 }}
             animate={{ width: `${progress}%` }}
-            transition={{ duration: 0.5 }}
-            className="h-full rounded-full bg-gradient-to-r from-blue-600 to-orange-500 shadow-sm"
+            transition={{ duration: 0.4 }}
+            style={{
+              height: '100%',
+              background: '#FFE500',
+              borderRight: progress < 100 ? '2px solid #0A0A0A' : 'none',
+            }}
           />
         </div>
 
-        <div className="grid grid-cols-4 lg:grid-cols-8 gap-3">
+        {/* Steps */}
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(4, 1fr)',
+          gap: '12px',
+        }}>
           {steps.map((step, index) => {
             const Icon = step.icon;
             const isCompleted = index < activeIndex;
             const isActive = index === activeIndex;
+            const isPending = index > activeIndex;
 
-            let iconColor = 'text-slate-400';
-            let bgClass = 'bg-slate-50';
-            let ringClass = '';
-            let labelColor = 'text-slate-400';
+            let bg = '#F5F0E8';
+            let iconColor = '#888';
+            let labelColor = '#888';
+            let border = '2px solid #ccc';
+            let shadow = 'none';
 
             if (isCompleted) {
-              iconColor = 'text-emerald-600';
-              bgClass = 'bg-emerald-50';
-              labelColor = 'text-emerald-700';
+              bg = '#B0FF3D';
+              iconColor = '#0A0A0A';
+              labelColor = '#0A0A0A';
+              border = '2px solid #0A0A0A';
+              shadow = '3px 3px 0 #0A0A0A';
             } else if (isActive) {
-              iconColor = 'text-blue-600';
-              bgClass = 'bg-blue-50';
-              ringClass = 'ring-2 ring-blue-500 ring-offset-2';
-              labelColor = 'text-blue-600';
+              bg = '#FFE500';
+              iconColor = '#0A0A0A';
+              labelColor = '#0A0A0A';
+              border = '2px solid #0A0A0A';
+              shadow = '3px 3px 0 #FF3D77';
             }
 
             return (
-              <div key={step.id} className="flex flex-col items-center text-center gap-2">
-                <div className={`p-3 rounded-full ${bgClass} ${ringClass} transition-all`}>
-                  <Icon
-                    className={`${iconColor} ${isActive ? 'animate-pulse' : ''}`}
-                    size={22}
-                  />
-                </div>
-                <span className={`text-xs font-semibold ${labelColor}`}>
+              <div key={step.id} style={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                gap: '8px',
+                padding: '12px 8px',
+                background: bg,
+                border: border,
+                boxShadow: shadow,
+                transition: 'all 0.2s',
+              }}>
+                <Icon
+                  size={20}
+                  color={iconColor}
+                  style={{
+                    animation: isActive ? 'spin 1s linear infinite' : 'none',
+                  }}
+                />
+                <span style={{
+                  color: labelColor,
+                  fontFamily: "'Space Grotesk', sans-serif",
+                  fontWeight: 700,
+                  fontSize: '0.7rem',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.05em',
+                  textAlign: 'center',
+                }}>
                   {step.label}
                 </span>
               </div>
@@ -77,6 +150,8 @@ export default function WorkflowTimeline({ progress, currentStep }) {
           })}
         </div>
       </div>
+
+      <style>{`@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }`}</style>
     </div>
   );
 }

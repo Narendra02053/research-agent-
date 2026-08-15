@@ -5,73 +5,205 @@ import LiveResearchFeed from '../components/research/LiveResearchFeed';
 import ReportViewer from '../components/ReportViewer';
 import SourceViewer from '../components/SourceViewer';
 import MetricsDashboard from '../components/MetricsDashboard';
-import { AlertCircle, Beaker } from 'lucide-react';
+import { AlertCircle, Beaker, Zap } from 'lucide-react';
 
 export default function Dashboard() {
   const { status, progress, currentStep, result, error, events, submitQuery, cancelJob } = useResearchStream();
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-800 font-sans selection:bg-orange-500/20">
-      <header className="border-b border-slate-200 bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="bg-gradient-to-br from-blue-600 to-orange-500 p-2 rounded-xl shadow-sm">
-              <Beaker size={24} className="text-white" />
+    <div className="min-h-screen" style={{ background: '#F5F0E8', fontFamily: "'Space Grotesk', sans-serif" }}>
+
+      {/* Top accent stripe */}
+      <div className="nb-stripe" />
+
+      {/* Header */}
+      <header style={{
+        background: '#FFE500',
+        borderBottom: '3px solid #0A0A0A',
+        position: 'sticky',
+        top: 0,
+        zIndex: 50,
+      }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 24px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: '64px' }}>
+            {/* Logo */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+              <div style={{
+                background: '#0A0A0A',
+                border: '3px solid #0A0A0A',
+                boxShadow: '3px 3px 0 #FF3D77',
+                padding: '6px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}>
+                <Beaker size={22} color="#FFE500" />
+              </div>
+              <h1 style={{ fontSize: '1.3rem', fontWeight: 700, color: '#0A0A0A', margin: 0, letterSpacing: '-0.03em' }}>
+                AI <span style={{ background: '#FF3D77', color: '#fff', padding: '0 6px' }}>DEEP</span> RESEARCH
+              </h1>
             </div>
-            <h1 className="text-xl font-extrabold tracking-tight text-slate-900">
-              AI Deep <span className="text-orange-500">Research</span>
-            </h1>
-          </div>
-          <div className="flex items-center gap-4">
-            <div className="flex items-center gap-2 text-sm font-medium">
-              <div className={`w-2.5 h-2.5 rounded-full ${status === 'running' ? 'bg-orange-500 animate-pulse' : 'bg-emerald-500'}`} />
-              <span className="text-slate-600">{status === 'running' ? 'Streaming...' : 'System Online'}</span>
+
+            {/* Status pill */}
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              background: '#0A0A0A',
+              border: '2px solid #0A0A0A',
+              padding: '6px 14px',
+              boxShadow: '3px 3px 0 #0A0A0A',
+            }}>
+              <div style={{
+                width: 10, height: 10,
+                background: status === 'running' ? '#FF6B35' : '#B0FF3D',
+                border: '2px solid #F5F0E8',
+                borderRadius: '50%',
+                animation: status === 'running' ? 'nb-blink 1s step-end infinite' : 'none',
+              }} />
+              <span style={{ color: '#FFE500', fontWeight: 700, fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
+                {status === 'running' ? 'STREAMING' : 'ONLINE'}
+              </span>
             </div>
           </div>
         </div>
       </header>
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="text-center mb-12">
-          <h2 className="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-indigo-600 to-orange-500 mb-4 tracking-tight">
-            Live AI Research Engine
+      {/* Main content */}
+      <main style={{ maxWidth: '1200px', margin: '0 auto', padding: '48px 24px' }}>
+
+        {/* Hero section */}
+        <div style={{ textAlign: 'center', marginBottom: '48px' }}>
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
+            <span className="nb-badge-pink" style={{
+              background: '#FF3D77',
+              color: '#fff',
+              border: '2px solid #0A0A0A',
+              padding: '4px 12px',
+              fontWeight: 700,
+              fontSize: '0.75rem',
+              textTransform: 'uppercase',
+              letterSpacing: '0.1em',
+            }}>
+              <Zap size={12} style={{ display: 'inline', marginRight: 4 }} />
+              Live Engine
+            </span>
+          </div>
+          <h2 style={{
+            fontSize: 'clamp(2.5rem, 5vw, 4rem)',
+            fontWeight: 700,
+            color: '#0A0A0A',
+            margin: '0 0 8px',
+            letterSpacing: '-0.04em',
+            lineHeight: 1,
+          }}>
+            LIVE AI RESEARCH{' '}
+            <span style={{
+              background: '#FFE500',
+              display: 'inline-block',
+              padding: '0 8px',
+              border: '3px solid #0A0A0A',
+              boxShadow: '4px 4px 0 #0A0A0A',
+              transform: 'rotate(-1deg)',
+              display: 'inline-block',
+            }}>ENGINE</span>
           </h2>
-          <p className="text-lg text-slate-600 max-w-2xl mx-auto font-medium">
-            Experience real-time LLM reasoning and retrieval updates via WebSockets.
+          <p style={{ color: '#444', fontSize: '1rem', fontWeight: 500, marginTop: '20px', maxWidth: '520px', margin: '20px auto 0' }}>
+            Real-time LLM reasoning and retrieval updates via WebSockets.
           </p>
         </div>
 
+        {/* Search form */}
         <ResearchForm onSubmit={submitQuery} status={status} onCancel={cancelJob} />
 
+        {/* Error state */}
         {error && (
-          <div className="max-w-3xl mx-auto mt-8 p-4 rounded-2xl bg-red-50 border border-red-200 flex items-start gap-3 shadow-sm">
-            <AlertCircle className="text-red-500 shrink-0 mt-0.5" size={20} />
-            <p className="text-red-700 text-sm leading-relaxed font-medium">{error}</p>
+          <div style={{
+            maxWidth: '720px',
+            margin: '24px auto 0',
+            padding: '16px 20px',
+            background: '#FF3D77',
+            border: '3px solid #0A0A0A',
+            boxShadow: '5px 5px 0 #0A0A0A',
+            display: 'flex',
+            alignItems: 'flex-start',
+            gap: '12px',
+          }} className="nb-animate-in">
+            <AlertCircle color="#fff" size={20} style={{ flexShrink: 0, marginTop: 2 }} />
+            <p style={{ color: '#fff', fontWeight: 600, margin: 0, fontSize: '0.9rem' }}>{error}</p>
           </div>
         )}
 
+        {/* Running state */}
         {(status === 'pending' || status === 'running') && (
-          <div className="space-y-8 animate-in fade-in slide-in-from-bottom-8 duration-700">
+          <div className="nb-animate-in" style={{ marginTop: '32px' }}>
             <WorkflowTimeline progress={progress} currentStep={currentStep} />
             <LiveResearchFeed events={events} />
           </div>
         )}
 
+        {/* Completed state */}
         {status === 'completed' && result && (
-          <div className="mt-12 animate-in fade-in slide-in-from-bottom-8 duration-700 space-y-8">
-            <MetricsDashboard metrics={result.quality_metrics} />
-            
-            <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
-              <div className="xl:col-span-2">
-                <ReportViewer report={result.report} />
+          <div className="nb-animate-in" style={{ marginTop: '48px' }}>
+            {/* Quality metrics label */}
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '12px',
+              marginBottom: '16px',
+            }}>
+              <div style={{
+                background: '#B0FF3D',
+                border: '3px solid #0A0A0A',
+                boxShadow: '3px 3px 0 #0A0A0A',
+                padding: '4px 14px',
+                fontWeight: 700,
+                fontSize: '0.8rem',
+                textTransform: 'uppercase',
+                letterSpacing: '0.1em',
+              }}>
+                Quality Metrics
               </div>
-              <div className="xl:col-span-1">
+              <div style={{ flex: 1, borderTop: '2px dashed #0A0A0A' }} />
+            </div>
+
+            <MetricsDashboard metrics={result.quality_metrics} />
+
+            {/* Report label */}
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '12px',
+              margin: '32px 0 16px',
+            }}>
+              <div style={{
+                background: '#FF3D77',
+                color: '#fff',
+                border: '3px solid #0A0A0A',
+                boxShadow: '3px 3px 0 #0A0A0A',
+                padding: '4px 14px',
+                fontWeight: 700,
+                fontSize: '0.8rem',
+                textTransform: 'uppercase',
+                letterSpacing: '0.1em',
+              }}>
+                Research Output
+              </div>
+              <div style={{ flex: 1, borderTop: '2px dashed #0A0A0A' }} />
+            </div>
+
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '24px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 2fr) minmax(0, 1fr)', gap: '24px' }}>
+                <ReportViewer report={result.report} />
                 <SourceViewer sources={result.sources} />
               </div>
             </div>
           </div>
         )}
       </main>
+
+      {/* Bottom accent stripe */}
+      <div className="nb-stripe" style={{ marginTop: '64px' }} />
     </div>
   );
 }
