@@ -32,6 +32,7 @@ class ResearchQualityPipeline:
         reranked = state.get("reranked_chunks", [])
         retrieval_eval = RelevanceEvaluator.evaluate_retrieval(query, retrieved, reranked)
         retrieval_quality = retrieval_eval["retrieval_quality"]
+        retrieval_precision = retrieval_eval["retrieval_precision"]
         
         # 3. Hallucination & Grounding Quality
         context = state.get("context", "")
@@ -40,17 +41,28 @@ class ResearchQualityPipeline:
         hallucination_risk = hallucination_eval["hallucination_risk"]
         grounding_score = hallucination_eval["grounding_score"]
         
-        # 4. Answer Quality
-        answer_eval = AnswerScorer.score_answer(report, query)
+        # 4. Citation Coverage Score
+        supported_claims = hallucination_eval.get("supported_claims", [])
+        unsupported_claims = hallucination_eval.get("unsupported_claims", [])
+        total_claims = len(supported_claims) + len(unsupported_claims)
+        citation_coverage = len(supported_claims) / total_claims if total_claims > 0 else 1.0
+        
+        # 5. Answer Quality (evaluates completeness, accuracy, clarity, evidence, and citation quality)
+        answer_eval = AnswerScorer.score_answer(report, query, context)
         answer_quality = answer_eval["answer_quality"]
         
-        # Aggregate Overall Confidence
-        # Weighted average
+        # Aggregate Overall Confidence with new weights:
+        # Grounding Score = 30%
+        # Answer Quality = 20%
+        # Retrieval Quality = 20%
+        # Source Quality = 10%
+        # Citation Coverage = 20%
         overall_confidence = (
-            (source_quality * 0.2) +
+            (grounding_score * 0.3) +
+            (answer_quality * 0.2) +
             (retrieval_quality * 0.2) +
-            (grounding_score * 0.4) +
-            (answer_quality * 0.2)
+            (source_quality * 0.1) +
+            (citation_coverage * 0.2)
         )
         
         # Penalty if hallucination risk is too high
@@ -63,9 +75,12 @@ class ResearchQualityPipeline:
         return {
             "source_quality": round(source_quality, 2),
             "retrieval_quality": round(retrieval_quality, 2),
+            "retrieval_precision": round(retrieval_precision, 2),
             "grounding_score": round(grounding_score, 2),
             "hallucination_risk": round(hallucination_risk, 2),
+            "citation_coverage": round(citation_coverage, 2),
             "answer_quality": round(answer_quality, 2),
             "overall_confidence": round(overall_confidence, 2),
-            "unsupported_claims": hallucination_eval.get("unsupported_claims", [])
+            "unsupported_claims": unsupported_claims,
+            "supported_claims": supported_claims
         }
