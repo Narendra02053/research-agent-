@@ -7,12 +7,12 @@ export default function MetricsDashboard({ metrics }) {
 
   const getScoreColor = (score, inverse = false) => {
     if (score === undefined || score === null || isNaN(score)) {
-      return 'text-gray-400';
+      return 'text-slate-400';
     }
     if (inverse) {
-      return score < 0.2 ? 'text-green-400' : score < 0.5 ? 'text-yellow-400' : 'text-red-400';
+      return score < 0.2 ? 'text-emerald-600' : score < 0.5 ? 'text-amber-500' : 'text-rose-500';
     }
-    return score > 0.8 ? 'text-green-400' : score > 0.6 ? 'text-yellow-400' : 'text-red-400';
+    return score > 0.8 ? 'text-emerald-600' : score > 0.6 ? 'text-amber-500' : 'text-rose-500';
   };
 
   const formatValue = (val) => {
@@ -52,12 +52,12 @@ export default function MetricsDashboard({ metrics }) {
   return (
     <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
       {cards.map((card, idx) => (
-        <div key={idx} className="bg-gray-800 p-5 rounded-2xl border border-gray-700 flex flex-col shadow-lg">
-          <div className="flex items-center gap-2 mb-2 text-gray-400">
-            <card.icon size={16} />
-            <span className="text-sm font-medium">{card.label}</span>
+        <div key={idx} className="bg-white p-5 rounded-2xl border border-slate-200 flex flex-col shadow-sm">
+          <div className="flex items-center gap-2 mb-2 text-slate-500">
+            <card.icon size={16} className="text-blue-500" />
+            <span className="text-sm font-semibold">{card.label}</span>
           </div>
-          <div className={`text-3xl font-bold ${card.color}`}>
+          <div className={`text-3xl font-extrabold ${card.color}`}>
             {card.value}
           </div>
         </div>

@@ -1,31 +1,51 @@
 @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
 
 @theme {
   --font-sans: "Inter", system-ui, sans-serif;
-  --color-primary-500: #3b82f6;
-  --color-primary-600: #2563eb;
-  --color-dark-800: #1f2937;
-  --color-dark-900: #111827;
+
+  /* Brand palette */
+  --color-brand-blue: #2563eb;
+  --color-brand-orange: #f97316;
+  --color-brand-indigo: #4f46e5;
 }
 
 @layer base {
   body {
-    @apply bg-gray-900 text-gray-100 antialiased;
+    @apply bg-slate-50 text-slate-800 antialiased;
+    font-family: 'Inter', system-ui, sans-serif;
   }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-extrabold tracking-tight;
+  }
+
+  /* Prose overrides for light mode report */
+  .prose h1, .prose h2, .prose h3 { @apply text-slate-900; }
+  .prose p, .prose li { @apply text-slate-700; }
+  .prose a { @apply text-blue-600 hover:text-orange-500; }
+  .prose strong { @apply text-slate-900 font-bold; }
+  .prose code { @apply bg-slate-100 text-orange-600 px-1.5 py-0.5 rounded text-sm; }
+  .prose pre { @apply bg-slate-900 text-slate-100 rounded-xl; }
+  .prose blockquote { @apply border-l-4 border-orange-400 text-slate-600; }
+  .prose hr { @apply border-slate-200; }
+  .prose thead { @apply bg-slate-100; }
+  .prose th { @apply text-slate-700; }
+  .prose td { @apply text-slate-600; }
 }
 
-/* Custom scrollbar for dark mode */
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+/* Branded scrollbar */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: #f1f5f9; }
+::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 8px; }
+::-webkit-scrollbar-thumb:hover { background: #f97316; }
+
+/* Smooth page animations */
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
-::-webkit-scrollbar-track {
-  background: #1f2937; 
-}
-::-webkit-scrollbar-thumb {
-  background: #4b5563; 
-  border-radius: 4px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #6b7280; 
+
+.animate-in {
+  animation: fadeSlideUp 0.5s ease forwards;
 }

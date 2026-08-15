@@ -11,19 +11,21 @@ export default function Dashboard() {
   const { status, progress, currentStep, result, error, events, submitQuery, cancelJob } = useResearchStream();
 
   return (
-    <div className="min-h-screen bg-gray-950 text-gray-100 font-sans selection:bg-blue-500/30">
-      <header className="border-b border-gray-800 bg-gray-900/50 backdrop-blur-md sticky top-0 z-50">
+    <div className="min-h-screen bg-slate-50 text-slate-800 font-sans selection:bg-orange-500/20">
+      <header className="border-b border-slate-200 bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="bg-blue-600 p-2 rounded-lg">
+            <div className="bg-gradient-to-br from-blue-600 to-orange-500 p-2 rounded-xl shadow-sm">
               <Beaker size={24} className="text-white" />
             </div>
-            <h1 className="text-xl font-bold tracking-tight text-white">AI Deep Research</h1>
+            <h1 className="text-xl font-extrabold tracking-tight text-slate-900">
+              AI Deep <span className="text-orange-500">Research</span>
+            </h1>
           </div>
           <div className="flex items-center gap-4">
-            <div className="flex items-center gap-2 text-sm">
-              <div className={`w-2 h-2 rounded-full ${status === 'running' ? 'bg-blue-500 animate-pulse' : 'bg-green-500'}`} />
-              <span className="text-gray-400">{status === 'running' ? 'Streaming...' : 'System Online'}</span>
+            <div className="flex items-center gap-2 text-sm font-medium">
+              <div className={`w-2.5 h-2.5 rounded-full ${status === 'running' ? 'bg-orange-500 animate-pulse' : 'bg-emerald-500'}`} />
+              <span className="text-slate-600">{status === 'running' ? 'Streaming...' : 'System Online'}</span>
             </div>
           </div>
         </div>
@@ -31,10 +33,10 @@ export default function Dashboard() {
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="text-center mb-12">
-          <h2 className="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-400 mb-4 tracking-tight">
+          <h2 className="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-indigo-600 to-orange-500 mb-4 tracking-tight">
             Live AI Research Engine
           </h2>
-          <p className="text-lg text-gray-400 max-w-2xl mx-auto">
+          <p className="text-lg text-slate-600 max-w-2xl mx-auto font-medium">
             Experience real-time LLM reasoning and retrieval updates via WebSockets.
           </p>
         </div>
@@ -42,9 +44,9 @@ export default function Dashboard() {
         <ResearchForm onSubmit={submitQuery} status={status} onCancel={cancelJob} />
 
         {error && (
-          <div className="max-w-3xl mx-auto mt-8 p-4 rounded-xl bg-red-900/20 border border-red-500/50 flex items-start gap-3">
-            <AlertCircle className="text-red-400 shrink-0 mt-0.5" size={20} />
-            <p className="text-red-200 text-sm leading-relaxed">{error}</p>
+          <div className="max-w-3xl mx-auto mt-8 p-4 rounded-2xl bg-red-50 border border-red-200 flex items-start gap-3 shadow-sm">
+            <AlertCircle className="text-red-500 shrink-0 mt-0.5" size={20} />
+            <p className="text-red-700 text-sm leading-relaxed font-medium">{error}</p>
           </div>
         )}
 

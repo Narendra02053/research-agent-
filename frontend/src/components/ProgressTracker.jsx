@@ -5,10 +5,10 @@ const steps = [
   { id: 'initializing', label: 'Initializing', icon: Loader2 },
   { id: 'planner', label: 'Planning', icon: FileText },
   { id: 'search', label: 'Searching Web', icon: Search },
-  { id: 'retrieval', label: 'Retrieving Knowledge', icon: Database },
-  { id: 'analysis', label: 'Synthesizing Data', icon: GitMerge },
-  { id: 'report', label: 'Drafting Report', icon: FileText },
-  { id: 'evaluation', label: 'Evaluating Quality', icon: FileSearch },
+  { id: 'retrieval', label: 'Retrieving', icon: Database },
+  { id: 'analysis', label: 'Synthesizing', icon: GitMerge },
+  { id: 'report', label: 'Drafting', icon: FileText },
+  { id: 'evaluation', label: 'Evaluating', icon: FileSearch },
   { id: 'done', label: 'Complete', icon: CheckCircle },
 ];
 
@@ -17,49 +17,59 @@ export default function ProgressTracker({ progress, currentStep }) {
   const activeIndex = currentStepIndex === -1 ? 0 : currentStepIndex;
 
   return (
-    <div className="w-full max-w-4xl mx-auto bg-gray-800 rounded-2xl p-8 border border-gray-700 shadow-xl mt-8">
-      <div className="flex items-center justify-between mb-8">
-        <h3 className="text-xl font-semibold text-gray-100 flex items-center gap-3">
-          <Loader2 className="animate-spin text-blue-500" />
+    <div className="w-full max-w-4xl mx-auto bg-white rounded-2xl p-8 border border-slate-200 shadow-sm mt-8">
+      <div className="flex items-center justify-between mb-6">
+        <h3 className="text-xl font-extrabold text-slate-900 flex items-center gap-3">
+          <Loader2 className="animate-spin text-blue-600" size={22} />
           Research in Progress
         </h3>
-        <span className="text-3xl font-bold text-blue-400">{progress}%</span>
+        <span className="text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-orange-500">
+          {progress}%
+        </span>
       </div>
 
       <div className="relative">
-        <div className="overflow-hidden h-2 mb-8 text-xs flex rounded-full bg-gray-700">
+        {/* Progress bar */}
+        <div className="overflow-hidden h-2.5 mb-8 rounded-full bg-slate-100">
           <motion.div
             initial={{ width: 0 }}
             animate={{ width: `${progress}%` }}
             transition={{ duration: 0.5 }}
-            className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-blue-500"
-          ></motion.div>
+            className="h-full rounded-full bg-gradient-to-r from-blue-600 to-orange-500 shadow-sm"
+          />
         </div>
 
-        <div className="grid grid-cols-4 lg:grid-cols-8 gap-4">
+        <div className="grid grid-cols-4 lg:grid-cols-8 gap-3">
           {steps.map((step, index) => {
             const Icon = step.icon;
             const isCompleted = index < activeIndex;
             const isActive = index === activeIndex;
-            const isPending = index > activeIndex;
 
-            let colorClass = 'text-gray-500';
-            let bgClass = 'bg-gray-800';
-            
+            let iconColor = 'text-slate-400';
+            let bgClass = 'bg-slate-50';
+            let ringClass = '';
+            let labelColor = 'text-slate-400';
+
             if (isCompleted) {
-              colorClass = 'text-green-400';
-              bgClass = 'bg-green-400/10';
+              iconColor = 'text-emerald-600';
+              bgClass = 'bg-emerald-50';
+              labelColor = 'text-emerald-700';
             } else if (isActive) {
-              colorClass = 'text-blue-400';
-              bgClass = 'bg-blue-400/10';
+              iconColor = 'text-blue-600';
+              bgClass = 'bg-blue-50';
+              ringClass = 'ring-2 ring-blue-500 ring-offset-2';
+              labelColor = 'text-blue-600';
             }
 
             return (
               <div key={step.id} className="flex flex-col items-center text-center gap-2">
-                <div className={`p-3 rounded-full ${bgClass} ${isActive ? 'ring-2 ring-blue-500' : ''}`}>
-                  <Icon className={`${colorClass} ${isActive ? 'animate-pulse' : ''}`} size={24} />
+                <div className={`p-3 rounded-full ${bgClass} ${ringClass} transition-all`}>
+                  <Icon
+                    className={`${iconColor} ${isActive ? 'animate-pulse' : ''}`}
+                    size={22}
+                  />
                 </div>
-                <span className={`text-xs font-medium ${isActive ? 'text-blue-400' : 'text-gray-400'}`}>
+                <span className={`text-xs font-semibold ${labelColor}`}>
                   {step.label}
                 </span>
               </div>
