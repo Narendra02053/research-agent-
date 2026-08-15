@@ -11,15 +11,12 @@ def planner_node(state: ResearchState) -> dict:
     llm = get_llm_service()
     query = state["query"]
     
-    prompt = f"""
-You are an expert AI Research Planner. Break down the user's complex research query into 2-3 specific, distinct search queries optimized for a web search engine.
-Avoid redundant searches and ensure high research coverage.
+    prompt = f"""You are an expert AI Research Planner.
+Break down the query into {settings.MAX_SEARCH_SUBQUERIES} specific search queries for a web search engine.
+Return ONLY a valid JSON list of strings, no markdown, no explanation.
+Example: ["query 1", "query 2"]
 
 USER QUERY: {query}
-
-OUTPUT INSTRUCTIONS:
-Return ONLY a valid JSON list of strings, nothing else. Do not use markdown formatting blocks.
-Example: ["query 1", "query 2"]
 """
     try:
         response = llm.generate_response(prompt, task_type="planning")

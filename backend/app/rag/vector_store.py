@@ -22,11 +22,22 @@ class VectorStoreService:
     @property
     def client(self):
         if self._client is None:
-            self._client = QdrantClient(
-                host=settings.QDRANT_HOST,
-                port=settings.QDRANT_PORT,
-            )
+            host = settings.QDRANT_HOST
+            port = settings.QDRANT_PORT
+            try:
+                # Attempt to connect to external Qdrant and test connection
+                client = QdrantClient(host=host, port=port, timeout=2.0)
+                client.get_collections()
+                self._client = client
+                logger.info(f"Connected to Qdrant at {host}:{port}")
+            except Exception as e:
+                logger.warning(
+                    f"External Qdrant at {host}:{port} is unavailable ({e}). "
+                    "Falling back to in-memory Qdrant client (location=':memory:')."
+                )
+                self._client = QdrantClient(location=":memory:")
         return self._client
+
 
     def _ensure_collection(self):
         """Creates the collection if it does not exist using Cosine similarity."""

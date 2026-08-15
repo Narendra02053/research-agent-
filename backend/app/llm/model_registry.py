@@ -34,10 +34,10 @@ MODEL_REGISTRY: dict[str, ModelMeta] = {
         capabilities=["reasoning", "deep_analysis", "report_generation", "evaluation"],
         notes="Primary model. Best quality on Groq.",
     ),
-    "groq:llama3-8b-8192": ModelMeta(
+    "groq:llama-3.1-8b-instant": ModelMeta(
         provider="groq",
-        model_id="llama3-8b-8192",
-        context_window=8_192,
+        model_id="llama-3.1-8b-instant",
+        context_window=128_000,
         max_output_tokens=8_192,
         cost_per_1k_input=0.0,
         cost_per_1k_output=0.0,
@@ -83,8 +83,8 @@ MODEL_REGISTRY: dict[str, ModelMeta] = {
 #  Task → Model mapping                                                #
 # ------------------------------------------------------------------ #
 TASK_MODEL_MAP: dict[str, list[str]] = {
-    "planning":          ["groq:llama3-8b-8192",        "openai:gpt-4o-mini",  "ollama:llama3"],
-    "fast_reasoning":    ["groq:llama3-8b-8192",        "openai:gpt-4o-mini",  "ollama:llama3"],
+    "planning":          ["groq:llama-3.1-8b-instant",        "openai:gpt-4o-mini",  "ollama:llama3"],
+    "fast_reasoning":    ["groq:llama-3.1-8b-instant",        "openai:gpt-4o-mini",  "ollama:llama3"],
     "deep_analysis":     ["groq:llama-3.3-70b-versatile","openai:gpt-4o-mini", "ollama:llama3"],
     "report_generation": ["groq:llama-3.3-70b-versatile","openai:gpt-4o-mini", "ollama:llama3"],
     "evaluation":        ["groq:llama-3.3-70b-versatile","openai:gpt-4o-mini", "ollama:llama3"],

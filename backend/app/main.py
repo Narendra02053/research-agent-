@@ -1,3 +1,4 @@
+import threading
 from fastapi import FastAPI
 from dotenv import load_dotenv
 
@@ -16,6 +17,23 @@ configure_logging()
 
 # Initialize MCP tools
 init_mcp()
+
+
+def _prewarm_embedding():
+    """Load the HuggingFace embedding model in the background at startup."""
+    try:
+        from app.rag.embedding import get_embedding_service
+        svc = get_embedding_service()
+        _ = svc.embed_text("warmup")  # triggers model download/load
+        import logging
+        logging.getLogger(__name__).info("Embedding model pre-warmed successfully.")
+    except Exception as exc:
+        import logging
+        logging.getLogger(__name__).warning(f"Embedding pre-warm failed (non-fatal): {exc}")
+
+
+# Fire-and-forget: don't block startup, but get the model ready ASAP
+threading.Thread(target=_prewarm_embedding, daemon=True, name="embedding-prewarm").start()
 
 # Initialize FastAPI app with production configurations
 app = FastAPI(

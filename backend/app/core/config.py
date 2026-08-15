@@ -28,11 +28,12 @@ class Settings(BaseSettings):
     # Research pipeline performance (disable heavy steps for faster responses)
     ENABLE_KNOWLEDGE_GRAPH: bool = False
     SKIP_EVALUATION: bool = True
-    MAX_SEARCH_SUBQUERIES: int = 3
-    MAX_EXTRACTION_URLS: int = 5
+    MAX_SEARCH_SUBQUERIES: int = 2       # was 3 — fewer parallel Tavily calls
+    MAX_EXTRACTION_URLS: int = 3         # was 5 — fewer pages to scrape & embed
     MAX_KG_CHUNKS: int = 2
-    RETRIEVAL_CHUNK_LIMIT: int = 8
-    RERANK_TOP_K: int = 5
+    RETRIEVAL_CHUNK_LIMIT: int = 5       # was 8
+    RERANK_TOP_K: int = 4                # was 5
+    MAX_CONTEXT_CHARS: int = 12000       # hard cap on context sent to LLM
 
     # Model defaults
     DEFAULT_LLM_MODEL: str = "llama-3.1-70b-versatile"

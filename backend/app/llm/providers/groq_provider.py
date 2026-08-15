@@ -11,7 +11,7 @@ from app.llm.providers.base_provider import BaseLLMProvider, LLMResponse, Provid
 logger = logging.getLogger(__name__)
 
 DEFAULT_MODEL = "llama-3.3-70b-versatile"
-FAST_MODEL = "llama3-8b-8192"
+FAST_MODEL = "llama-3.1-8b-instant"
 
 
 class GroqProvider(BaseLLMProvider):
@@ -19,7 +19,7 @@ class GroqProvider(BaseLLMProvider):
     def __init__(self):
         config = ProviderConfig(
             name="groq",
-            models=[DEFAULT_MODEL, FAST_MODEL, "llama3-70b-8192"],
+            models=[DEFAULT_MODEL, FAST_MODEL],
             priority=0,   # Highest priority — fast + free tier
         )
         super().__init__(config)
