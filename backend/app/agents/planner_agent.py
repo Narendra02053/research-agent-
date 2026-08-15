@@ -21,7 +21,7 @@ Return ONLY a valid JSON list of strings, nothing else. Do not use markdown form
 Example: ["query 1", "query 2"]
 """
     try:
-        response = llm.generate_response(prompt)
+        response = llm.generate_response(prompt, task_type="planning")
         cleaned_response = response.replace("```json", "").replace("```", "").strip()
         search_queries = json.loads(cleaned_response)
         

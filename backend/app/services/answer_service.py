@@ -50,7 +50,7 @@ class AnswerService:
             )
             
             # 5. LLM Answer Generation
-            answer = self.llm_service.generate_response(prompt)
+            answer = self.llm_service.generate_response(prompt, task_type="report_generation")
             
             # 6. Extract unique sources for the response payload
             sources = []

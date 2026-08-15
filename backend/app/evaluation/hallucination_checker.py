@@ -41,7 +41,7 @@ Format:
 }}
 """
         try:
-            response = llm.generate_response(prompt)
+            response = llm.generate_response(prompt, task_type="hallucination")
             cleaned = response.replace("```json", "").replace("```", "").strip()
             result = json.loads(cleaned)
             

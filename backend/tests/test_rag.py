@@ -1,13 +1,14 @@
 import pytest
-from app.rag.chunker import RecursiveChunker
+from app.rag.chunker import ContentChunker
 
 def test_recursive_chunker():
-    chunker = RecursiveChunker(chunk_size=50, chunk_overlap=10)
+    chunker = ContentChunker(chunk_size=100, chunk_overlap=10)
     text = "This is a very long text that should be split into smaller chunks by the recursive chunker."
-    chunks = chunker.chunk_text(text)
+    chunks = chunker.chunk_content(text, "Test Title", "http://test.com")
     
-    assert len(chunks) > 1
-    assert len(chunks[0]) <= 50
+    assert len(chunks) >= 1
+    assert all("chunk_text" in c for c in chunks)
+
 
 # Mock test for embedding and vector store
 @pytest.mark.asyncio

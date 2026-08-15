@@ -46,6 +46,19 @@ async def metrics():
         "system_load": "low"
     }
 
+@api_router.get("/llm/providers", tags=["LLM Gateway"])
+async def llm_providers():
+    """
+    Retrieve available LLM providers, active models, and usage summary.
+    """
+    from app.llm.router import get_llm_router
+    router = get_llm_router()
+    return {
+        "providers": router.available_providers(),
+        "usage_summary": router.usage_summary()
+    }
+
+
 @api_router.websocket("/ws/research/{job_id}")
 async def websocket_research_endpoint(websocket: WebSocket, job_id: str):
     """
@@ -65,4 +78,5 @@ async def websocket_research_endpoint(websocket: WebSocket, job_id: str):
         import logging
         logging.error(f"WebSocket error for job {job_id}: {e}")
         ws_manager.disconnect(websocket, job_id)
+
 

@@ -41,4 +41,4 @@ SOURCES AVAILABLE FOR CITATION:
 
 FINAL REPORT:
 """
-        return self.llm.generate_response(prompt)
+        return self.llm.generate_response(prompt, task_type="report_generation")

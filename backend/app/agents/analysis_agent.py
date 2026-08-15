@@ -30,7 +30,7 @@ CONTEXT:
 ANALYSIS DRAFT:
 """
     try:
-        analysis = llm.generate_response(prompt)
+        analysis = llm.generate_response(prompt, task_type="deep_analysis")
     except Exception as e:
         logger.error(f"Analysis Agent failed: {str(e)}")
         analysis = "Analysis failed to generate."

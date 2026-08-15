@@ -41,3 +41,13 @@ class IndexingService:
         except Exception as e:
             logger.error(f"Error during indexing pipeline: {str(e)}")
             raise e
+
+
+_indexing_service_instance = None
+
+def get_indexing_service() -> IndexingService:
+    global _indexing_service_instance
+    if _indexing_service_instance is None:
+        _indexing_service_instance = IndexingService()
+    return _indexing_service_instance
+
