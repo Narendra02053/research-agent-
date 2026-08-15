@@ -38,28 +38,29 @@ class RerankerService:
             
         start_time = time.time()
         logger.info(f"Reranking {len(retrieved_chunks)} chunks for query: '{query}'")
-        
-        try:
-            # Prepare pairs for the CrossEncoder
-            pairs = [[query, chunk.get("content", "")] for chunk in retrieved_chunks]
-            
-            # Calculate scores
-            scores = self.model.predict(pairs)
-            
-            # Attach scores and sort
-            for idx, chunk in enumerate(retrieved_chunks):
-                chunk["rerank_score"] = float(scores[idx])
+
+        from app.observability.rag_instrumentation import RerankerSpan
+        with RerankerSpan(query=query, input_count=len(retrieved_chunks)) as span:
+            try:
+                pairs = [[query, chunk.get("content", "")] for chunk in retrieved_chunks]
+                scores = self.model.predict(pairs)
                 
-            # Sort in descending order of relevance score
-            retrieved_chunks.sort(key=lambda x: x.get("rerank_score", 0), reverse=True)
-            
-            elapsed = time.time() - start_time
-            logger.info(f"Reranking completed in {elapsed:.2f} seconds")
-            
-            return retrieved_chunks[:top_k]
-        except Exception as e:
-            logger.error(f"Reranking failed: {str(e)}")
-            return retrieved_chunks[:top_k]
+                for idx, chunk in enumerate(retrieved_chunks):
+                    chunk["rerank_score"] = float(scores[idx])
+                    
+                retrieved_chunks.sort(key=lambda x: x.get("rerank_score", 0), reverse=True)
+                
+                elapsed = time.time() - start_time
+                logger.info(f"Reranking completed in {elapsed:.2f} seconds")
+                
+                result = retrieved_chunks[:top_k]
+                span.finish(top_k_count=len(result))
+                return result
+            except Exception as e:
+                logger.error(f"Reranking failed: {str(e)}")
+                result = retrieved_chunks[:top_k]
+                span.finish(top_k_count=len(result))
+                return result
 
 def get_reranker_service() -> RerankerService:
     return RerankerService()

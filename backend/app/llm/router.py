@@ -49,6 +49,7 @@ class LLMRouter:
         """
         Route the prompt through the best available model chain for the
         given task_type, applying fallback automatically.
+        Calls are wrapped in a Phoenix / OTEL span for observability.
         """
         model_chain = get_model_chain(task_type)
 
@@ -66,17 +67,31 @@ class LLMRouter:
             providers_ordered = [_PROVIDERS[override_provider]] + providers_ordered
             models_ordered    = [override_model] + models_ordered
 
-        response = self._fallback.execute(
-            providers=providers_ordered,
+        # ── Phoenix instrumentation ──────────────────────────────────────
+        from app.observability.llm_instrumentation import instrument_llm_call
+
+        def _inner_generate(**kw):
+            return self._fallback.execute(
+                providers=providers_ordered,
+                prompt=prompt,
+                models=models_ordered,
+                temperature=kw.get("temperature", temperature),
+                max_tokens=kw.get("max_tokens", max_tokens),
+                task_type=task_type,
+            )
+
+        response = instrument_llm_call(
+            _inner_generate,
             prompt=prompt,
-            models=models_ordered,
+            task_type=task_type,
             temperature=temperature,
             max_tokens=max_tokens,
-            task_type=task_type,
         )
+        # ────────────────────────────────────────────────────────────────
 
         self._monitor.record(response, task_type=task_type)
         return response
+
 
     # Convenience wrapper — returns plain string to keep backward compat
     def generate_response(self, prompt: str, task_type: str = "default") -> str:

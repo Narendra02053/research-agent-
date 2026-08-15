@@ -15,3 +15,10 @@ langchain-groq
 redis
 celery
 pydantic-settings
+
+# Observability
+arize-phoenix
+openinference-instrumentation-langchain
+openinference-instrumentation-openai
+opentelemetry-sdk
+opentelemetry-api

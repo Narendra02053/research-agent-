@@ -46,6 +46,17 @@ async def metrics():
         "system_load": "low"
     }
 
+@api_router.get("/observability/status", tags=["System"])
+async def observability_status():
+    """
+    Get the status of Arize Phoenix observability and the UI URL.
+    """
+    from app.observability.phoenix_tracer import is_enabled, get_phoenix_url
+    return {
+        "enabled": is_enabled(),
+        "phoenix_ui": get_phoenix_url(),
+    }
+
 @api_router.get("/llm/providers", tags=["LLM Gateway"])
 async def llm_providers():
     """

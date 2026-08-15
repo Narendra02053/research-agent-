@@ -105,24 +105,27 @@ class VectorStoreService:
 
         query_vector = self.embedding_service.embed_text(query)
 
-        search_result = self.client.query_points(
-            collection_name=self.collection_name,
-            query=query_vector,
-            limit=limit,
-        )
+        from app.observability.rag_instrumentation import VectorRetrievalSpan
+        with VectorRetrievalSpan(query=query, collection=self.collection_name, limit=limit) as span:
+            search_result = self.client.query_points(
+                collection_name=self.collection_name,
+                query=query_vector,
+                limit=limit,
+            )
 
-        results = []
-        for hit in search_result.points:
-            results.append({
-                "content": hit.payload.get("text", ""),
-                "score": hit.score,
-                "metadata": {
-                    "title": hit.payload.get("title", ""),
-                    "url": hit.payload.get("url", ""),
-                    "chunk_id": hit.payload.get("chunk_id", ""),
-                    "timestamp": hit.payload.get("timestamp", ""),
-                },
-            })
+            results = []
+            for hit in search_result.points:
+                results.append({
+                    "content": hit.payload.get("text", ""),
+                    "score": hit.score,
+                    "metadata": {
+                        "title": hit.payload.get("title", ""),
+                        "url": hit.payload.get("url", ""),
+                        "chunk_id": hit.payload.get("chunk_id", ""),
+                        "timestamp": hit.payload.get("timestamp", ""),
+                    },
+                })
+            span.finish(results)
 
         return results
 

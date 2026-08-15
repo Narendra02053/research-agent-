@@ -7,6 +7,7 @@ services:
     container_name: research_backend
     ports:
       - "8000:8000"
+      - "6006:6006"
     environment:
       - ENVIRONMENT=production
       - REDIS_HOST=redis
@@ -23,7 +24,7 @@ services:
     networks:
       - research_net
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8000/api/v1/health"]
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/api/v1/health')"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -33,13 +34,14 @@ services:
     build:
       context: ./backend
     container_name: research_worker
-    command: celery -A app.workers.celery_app worker --loglevel=info --queue=research
+    command: celery -A app.workers.celery_app worker --loglevel=info -Q research
     environment:
       - ENVIRONMENT=production
       - REDIS_HOST=redis
       - REDIS_PORT=6379
       - QDRANT_HOST=qdrant
       - QDRANT_PORT=6333
+      - PHOENIX_COLLECTOR_ENDPOINT=http://backend:6006
     env_file:
       - ./backend/.env
     depends_on:
@@ -61,7 +63,7 @@ services:
     networks:
       - research_net
     healthcheck:
-      test: ["CMD", "wget", "-qO-", "http://localhost:80"]
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:80"]
       interval: 30s
       timeout: 10s
       retries: 3

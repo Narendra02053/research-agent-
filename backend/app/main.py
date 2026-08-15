@@ -11,9 +11,13 @@ from app.core.config import settings
 from app.mcp import init_mcp
 from app.middleware.request_logging import RequestLoggingMiddleware
 from app.middleware.rate_limit import RateLimitMiddleware
+from app.observability.phoenix_tracer import init_phoenix, get_phoenix_url
 
 # Configure structured logging for the application
 configure_logging()
+
+# Initialize Arize Phoenix observability (non-blocking if packages missing)
+init_phoenix()
 
 # Initialize MCP tools
 init_mcp()
@@ -59,5 +63,6 @@ async def root():
     return {
         "message": "AI Deep Research Agent API",
         "environment": settings.ENVIRONMENT,
-        "docs": "/docs"
+        "docs": "/docs",
+        "phoenix_ui": get_phoenix_url(),
     }
