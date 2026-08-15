@@ -21,11 +21,17 @@ WORKDIR /app
 COPY --from=builder /app/wheels /wheels
 COPY --from=builder /app/requirements.txt .
 
+# Install CPU-only PyTorch first (saves 1.5GB of CUDA downloads and 20 mins of build time)
+RUN pip install --no-cache-dir torch --index-url https://download.pytorch.org/whl/cpu
+
 # Install dependencies from wheels
 RUN pip install --no-cache /wheels/*
 
 # Copy application code
 COPY . .
+
+# Pre-download Hugging Face models to cache them inside the image
+RUN python -c "from sentence_transformers import SentenceTransformer, CrossEncoder; SentenceTransformer('BAAI/bge-small-en-v1.5'); CrossEncoder('BAAI/bge-reranker-base')"
 
 # Expose FastAPI port
 EXPOSE 8000

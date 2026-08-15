@@ -14,8 +14,13 @@ services:
       - QDRANT_HOST=qdrant
       - QDRANT_PORT=6333
       - PHOENIX_COLLECTOR_ENDPOINT=http://phoenix:6006/v1/traces
+      - SKIP_EVALUATION=false
+      - MAX_EXTRACTION_URLS=2
+      - MAX_CONTEXT_CHARS=8000
     env_file:
       - ./backend/.env
+    volumes:
+      - ./backend:/app
     depends_on:
       redis:
         condition: service_healthy
@@ -44,8 +49,13 @@ services:
       - QDRANT_HOST=qdrant
       - QDRANT_PORT=6333
       - PHOENIX_COLLECTOR_ENDPOINT=http://phoenix:6006/v1/traces
+      - SKIP_EVALUATION=false
+      - MAX_EXTRACTION_URLS=2
+      - MAX_CONTEXT_CHARS=8000
     env_file:
       - ./backend/.env
+    volumes:
+      - ./backend:/app
     depends_on:
       redis:
         condition: service_healthy
@@ -65,7 +75,7 @@ services:
     networks:
       - research_net
     healthcheck:
-      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:6006/"]
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:6006/')" ]
       interval: 10s
       timeout: 5s
       retries: 3

@@ -38,8 +38,26 @@ class SearchService:
         if cached:
             return cached["results"]
 
+        # Parse query for news and recency triggers
+        lower_query = query.lower()
+        is_news = any(word in lower_query for word in ["news", "match", "score", "cricket", "vs", "versus", "live", "current", "update", "t20", "odi", "test"])
+        is_extreme_recent = any(word in lower_query for word in ["today", "yesterday", "last night", "this week", "latest", "recent"])
+
+        search_params = {
+            "query": query,
+            "max_results": 5,
+        }
+
+        if is_news:
+            search_params["topic"] = "news"
+            logger.info(f"Query looks like a news/sports event. Using topic='news'")
+            
+        if is_extreme_recent:
+            search_params["days"] = 7
+            logger.info(f"Query asks for extreme recency. Limiting search to last 7 days (days=7)")
+
         try:
-            response = self.client.search(query=query, max_results=5)
+            response = self.client.search(**search_params)
             results = []
             for result in response.get("results", []):
                 results.append({
