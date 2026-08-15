@@ -6,6 +6,10 @@ Aggregates all domain-specific routers and provides health checks.
 from fastapi import APIRouter
 from app.routes import research, search, deep_research, agentic_research, mcp_tools, async_research
 from app.models.api_models import HealthResponse
+from fastapi import WebSocket, WebSocketDisconnect
+from app.realtime.websocket_manager import manager as ws_manager
+from app.realtime.stream_service import get_stream_service
+import asyncio
 
 api_router = APIRouter()
 
@@ -41,3 +45,24 @@ async def metrics():
         "completed_jobs": 0,
         "system_load": "low"
     }
+
+@api_router.websocket("/ws/research/{job_id}")
+async def websocket_research_endpoint(websocket: WebSocket, job_id: str):
+    """
+    WebSocket endpoint for real-time streaming of research progress and results.
+    """
+    await ws_manager.connect(websocket, job_id)
+    stream_service = get_stream_service()
+    
+    try:
+        # Subscribe to the Redis Pub/Sub channel for this job
+        async for message in stream_service.subscribe(job_id):
+            await ws_manager.send_message(message, websocket)
+            
+    except WebSocketDisconnect:
+        ws_manager.disconnect(websocket, job_id)
+    except Exception as e:
+        import logging
+        logging.error(f"WebSocket error for job {job_id}: {e}")
+        ws_manager.disconnect(websocket, job_id)
+

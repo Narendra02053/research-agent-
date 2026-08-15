@@ -7,8 +7,10 @@ Backs everything to Redis memory for persistence and dashboard readiness.
 import time
 import uuid
 import logging
+import asyncio
 from typing import Optional
 from app.core.memory import get_memory_service
+from app.realtime.stream_service import get_stream_service
 
 logger = logging.getLogger(__name__)
 
@@ -42,6 +44,15 @@ class JobService:
             "error": None
         }, ttl=86400)
         logger.info(f"Job created [id={job_id}] query='{query[:60]}'")
+        
+        # Publish creation event asynchronously without blocking
+        stream = get_stream_service()
+        try:
+            loop = asyncio.get_running_loop()
+            loop.create_task(stream.publish_event(job_id, "workflow_started", {"query": query}))
+        except RuntimeError:
+            asyncio.run(stream.publish_event(job_id, "workflow_started", {"query": query}))
+            
         return job_id
 
     # ------------------------------------------------------------------ #
@@ -59,12 +70,14 @@ class JobService:
             "current_step": step,
             "progress": progress
         })
+        self._publish_update(job_id, f"{step}_started", {"progress": progress, "step": step})
 
     def update_progress(self, job_id: str, step: str, progress: int):
         self._update(job_id, {
             "current_step": step,
             "progress": min(progress, 99)
         })
+        self._publish_update(job_id, "progress_update", {"progress": progress, "step": step})
 
     def mark_complete(self, job_id: str, report: str, sources: list,
                       quality_metrics: dict, steps: list, timing: dict):
@@ -80,6 +93,11 @@ class JobService:
             "timing": timing
         })
         logger.info(f"Job completed [id={job_id}]")
+        self._publish_update(job_id, "workflow_finished", {
+            "report": report,
+            "sources": sources,
+            "metrics": quality_metrics
+        })
 
     def mark_failed(self, job_id: str, error: str, step: str = ""):
         self._update(job_id, {
@@ -88,10 +106,20 @@ class JobService:
             "error": error
         })
         logger.error(f"Job failed [id={job_id}] step='{step}' error='{error[:120]}'")
+        self._publish_update(job_id, "workflow_failed", {"error": error, "step": step})
 
     def mark_cancelled(self, job_id: str):
         self._update(job_id, {"status": "cancelled"})
         logger.info(f"Job cancelled [id={job_id}]")
+        self._publish_update(job_id, "workflow_cancelled", {})
+
+    def _publish_update(self, job_id: str, event_type: str, data: dict):
+        stream = get_stream_service()
+        try:
+            loop = asyncio.get_running_loop()
+            loop.create_task(stream.publish_event(job_id, event_type, data))
+        except RuntimeError:
+            asyncio.run(stream.publish_event(job_id, event_type, data))
 
     # ------------------------------------------------------------------ #
     #  Internal                                                            #

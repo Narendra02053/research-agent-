@@ -1,13 +1,14 @@
-import { useResearch } from '../hooks/useResearch';
+import { useResearchStream } from '../hooks/useResearchStream';
 import ResearchForm from '../components/ResearchForm';
-import ProgressTracker from '../components/ProgressTracker';
+import WorkflowTimeline from '../components/research/WorkflowTimeline';
+import LiveResearchFeed from '../components/research/LiveResearchFeed';
 import ReportViewer from '../components/ReportViewer';
 import SourceViewer from '../components/SourceViewer';
 import MetricsDashboard from '../components/MetricsDashboard';
 import { AlertCircle, Beaker } from 'lucide-react';
 
 export default function Dashboard() {
-  const { status, progress, currentStep, result, error, submitQuery, cancelJob } = useResearch();
+  const { status, progress, currentStep, result, error, events, submitQuery, cancelJob } = useResearchStream();
 
   return (
     <div className="min-h-screen bg-gray-950 text-gray-100 font-sans selection:bg-blue-500/30">
@@ -21,8 +22,8 @@ export default function Dashboard() {
           </div>
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-2 text-sm">
-              <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-              <span className="text-gray-400">System Online</span>
+              <div className={`w-2 h-2 rounded-full ${status === 'running' ? 'bg-blue-500 animate-pulse' : 'bg-green-500'}`} />
+              <span className="text-gray-400">{status === 'running' ? 'Streaming...' : 'System Online'}</span>
             </div>
           </div>
         </div>
@@ -31,10 +32,10 @@ export default function Dashboard() {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="text-center mb-12">
           <h2 className="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-400 mb-4 tracking-tight">
-            Production AI Research Engine
+            Live AI Research Engine
           </h2>
           <p className="text-lg text-gray-400 max-w-2xl mx-auto">
-            Enter a complex topic and watch the AI agents plan, search, synthesize, and evaluate a fully grounded report in real-time.
+            Experience real-time LLM reasoning and retrieval updates via WebSockets.
           </p>
         </div>
 
@@ -48,7 +49,10 @@ export default function Dashboard() {
         )}
 
         {(status === 'pending' || status === 'running') && (
-          <ProgressTracker progress={progress} currentStep={currentStep} />
+          <div className="space-y-8 animate-in fade-in slide-in-from-bottom-8 duration-700">
+            <WorkflowTimeline progress={progress} currentStep={currentStep} />
+            <LiveResearchFeed events={events} />
+          </div>
         )}
 
         {status === 'completed' && result && (
