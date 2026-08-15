@@ -33,8 +33,16 @@ export function useResearchStream() {
       wsRef.current.close();
     }
 
-    const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-    const wsUrl = `${protocol}//${window.location.host}/api/v1/ws/research/${id}`;
+    const API_URL = import.meta.env.VITE_API_URL || '';
+    let wsUrl;
+    if (API_URL) {
+      const wsProtocol = API_URL.startsWith('https') ? 'wss:' : 'ws:';
+      const host = API_URL.replace(/^https?:\/\//, '');
+      wsUrl = `${wsProtocol}//${host}/api/v1/ws/research/${id}`;
+    } else {
+      const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+      wsUrl = `${protocol}//${window.location.host}/api/v1/ws/research/${id}`;
+    }
     const ws = new WebSocket(wsUrl);
 
     ws.onmessage = (event) => {
