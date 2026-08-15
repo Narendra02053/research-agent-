@@ -7,10 +7,9 @@ Backs everything to Redis memory for persistence and dashboard readiness.
 import time
 import uuid
 import logging
-import asyncio
 from typing import Optional
 from app.core.memory import get_memory_service
-from app.realtime.stream_service import get_stream_service
+from app.realtime.sync_publisher import publish_event_sync
 
 logger = logging.getLogger(__name__)
 
@@ -45,14 +44,7 @@ class JobService:
         }, ttl=86400)
         logger.info(f"Job created [id={job_id}] query='{query[:60]}'")
         
-        # Publish creation event asynchronously without blocking
-        stream = get_stream_service()
-        try:
-            loop = asyncio.get_running_loop()
-            loop.create_task(stream.publish_event(job_id, "workflow_started", {"query": query}))
-        except RuntimeError:
-            asyncio.run(stream.publish_event(job_id, "workflow_started", {"query": query}))
-            
+        publish_event_sync(job_id, "workflow_started", {"query": query})
         return job_id
 
     # ------------------------------------------------------------------ #
@@ -114,12 +106,7 @@ class JobService:
         self._publish_update(job_id, "workflow_cancelled", {})
 
     def _publish_update(self, job_id: str, event_type: str, data: dict):
-        stream = get_stream_service()
-        try:
-            loop = asyncio.get_running_loop()
-            loop.create_task(stream.publish_event(job_id, event_type, data))
-        except RuntimeError:
-            asyncio.run(stream.publish_event(job_id, event_type, data))
+        publish_event_sync(job_id, event_type, data)
 
     # ------------------------------------------------------------------ #
     #  Internal                                                            #

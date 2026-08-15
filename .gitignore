@@ -41,3 +41,13 @@ Thumbs.db
 .cache/
 .pytest_cache/
 .mypy_cache/
+
+# ── Testing & Coverage ──────────────────────────────────────────────
+.coverage
+htmlcov/
+coverage.xml
+.coverage.*
+nosetests.xml
+pip-log.txt
+pip-delete-this-directory.txt
+

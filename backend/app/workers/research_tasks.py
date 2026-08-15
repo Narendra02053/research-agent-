@@ -31,6 +31,9 @@ def run_deep_research_task(self, job_id: str, query: str):
     total_start = time.perf_counter()
 
     try:
+        from app.mcp import init_mcp
+        init_mcp()
+
         # ---- Mark running ------------------------------------------------
         job_svc.mark_running(job_id, step="initializing", progress=5)
 
@@ -47,6 +50,7 @@ def run_deep_research_task(self, job_id: str, query: str):
         # ---- Initialise state -------------------------------------------
         initial_state: ResearchState = {
             "query": query,
+            "job_id": job_id,
             "search_queries": [],
             "search_results": [],
             "extracted_content": [],
@@ -60,11 +64,24 @@ def run_deep_research_task(self, job_id: str, query: str):
             "quality_metrics": {}
         }
 
-        # ---- Execute graph with progress callbacks ----------------------
-        job_svc.update_progress(job_id, "planner", 10)
+        # ---- Execute graph with per-node progress -------------------------
+        step_progress = {
+            "planner": 15,
+            "search": 35,
+            "retrieval": 55,
+            "analysis": 75,
+            "report": 90,
+            "evaluation": 98,
+        }
 
         graph_start = time.perf_counter()
-        final_state = research_graph.invoke(initial_state)
+        final_state = dict(initial_state)
+        for event in research_graph.stream(initial_state):
+            for node_name, node_output in event.items():
+                if isinstance(node_output, dict):
+                    final_state.update(node_output)
+                progress = step_progress.get(node_name, 50)
+                job_svc.update_progress(job_id, node_name, progress)
         graph_seconds = round(time.perf_counter() - graph_start, 3)
 
         # ---- Collect results --------------------------------------------
@@ -101,9 +118,11 @@ def run_deep_research_task(self, job_id: str, query: str):
         logger.error(f"Background research failed [job={job_id}]: {exc}")
         job_svc.mark_failed(job_id, str(exc), step="graph_execution")
 
-        # Retry with Celery's built-in mechanism
-        try:
-            raise self.retry(exc=exc)
-        except self.MaxRetriesExceededError:
-            job_svc.mark_failed(job_id, f"Max retries exceeded: {exc}", step="final_failure")
-            logger.error(f"Job {job_id} exhausted all retries.")
+        # Only retry transient/network failures — not logic or config errors
+        retryable = isinstance(exc, (ConnectionError, TimeoutError, OSError))
+        if retryable:
+            try:
+                raise self.retry(exc=exc)
+            except self.MaxRetriesExceededError:
+                job_svc.mark_failed(job_id, f"Max retries exceeded: {exc}", step="final_failure")
+                logger.error(f"Job {job_id} exhausted all retries.")

@@ -2,6 +2,7 @@ import logging
 import json
 from app.models.state import ResearchState
 from app.core.llm import get_llm_service
+from app.core.config import settings
 
 logger = logging.getLogger(__name__)
 
@@ -11,7 +12,7 @@ def planner_node(state: ResearchState) -> dict:
     query = state["query"]
     
     prompt = f"""
-You are an expert AI Research Planner. Break down the user's complex research query into 3-5 specific, distinct search queries optimized for a web search engine.
+You are an expert AI Research Planner. Break down the user's complex research query into 2-3 specific, distinct search queries optimized for a web search engine.
 Avoid redundant searches and ensure high research coverage.
 
 USER QUERY: {query}
@@ -27,6 +28,7 @@ Example: ["query 1", "query 2"]
         
         if not isinstance(search_queries, list):
             raise ValueError("LLM did not return a list.")
+        search_queries = search_queries[: settings.MAX_SEARCH_SUBQUERIES]
     except Exception as e:
         logger.error(f"Planner Agent failed to parse queries: {str(e)}. Defaulting to original query.")
         search_queries = [query]

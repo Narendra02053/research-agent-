@@ -25,6 +25,15 @@ class Settings(BaseSettings):
     RATE_LIMIT_REQUESTS: int = 100
     RATE_LIMIT_WINDOW_SECS: int = 60
 
+    # Research pipeline performance (disable heavy steps for faster responses)
+    ENABLE_KNOWLEDGE_GRAPH: bool = False
+    SKIP_EVALUATION: bool = True
+    MAX_SEARCH_SUBQUERIES: int = 3
+    MAX_EXTRACTION_URLS: int = 5
+    MAX_KG_CHUNKS: int = 2
+    RETRIEVAL_CHUNK_LIMIT: int = 8
+    RERANK_TOP_K: int = 5
+
     # Model defaults
     DEFAULT_LLM_MODEL: str = "llama-3.1-70b-versatile"
     DEFAULT_EMBEDDING_MODEL: str = "sentence-transformers/all-MiniLM-L6-v2"

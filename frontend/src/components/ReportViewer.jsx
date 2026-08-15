@@ -11,9 +11,8 @@ export default function ReportViewer({ report }) {
         <h2 className="text-2xl font-bold text-gray-100 m-0">Final Research Report</h2>
       </div>
       
-      {/* Fallback rendering if ReactMarkdown isn't installed. In a real app we'd use react-markdown */}
-      <div className="text-gray-300 whitespace-pre-wrap leading-relaxed font-sans">
-        {report}
+      <div className="text-gray-300 leading-relaxed font-sans">
+        <ReactMarkdown>{report}</ReactMarkdown>
       </div>
     </div>
   );

@@ -6,6 +6,7 @@ from app.agents.retrieval_agent import retrieval_node
 from app.agents.analysis_agent import analysis_node
 from app.agents.report_agent import report_node
 from app.agents.evaluation_agent import evaluation_node
+from app.core.config import settings
 
 def create_research_graph():
     """
@@ -28,8 +29,11 @@ def create_research_graph():
     workflow.add_edge("search", "retrieval")
     workflow.add_edge("retrieval", "analysis")
     workflow.add_edge("analysis", "report")
-    workflow.add_edge("report", "evaluation")
-    workflow.add_edge("evaluation", END)
+    if settings.SKIP_EVALUATION:
+        workflow.add_edge("report", END)
+    else:
+        workflow.add_edge("report", "evaluation")
+        workflow.add_edge("evaluation", END)
     
     # Compile graph
     return workflow.compile()

@@ -22,6 +22,19 @@ celery_app = Celery(
     include=["app.workers.research_tasks"]
 )
 
+@celery_app.on_after_configure.connect
+def _register_worker_hooks(**kwargs):
+    from celery.signals import worker_process_init
+
+    @worker_process_init.connect
+    def _init_worker_process(**_kwargs):
+        from app.core.logging_config import configure_logging
+        from app.mcp import init_mcp
+
+        configure_logging()
+        init_mcp()
+
+
 celery_app.conf.update(
     # Serialization
     task_serializer="json",

@@ -26,6 +26,7 @@ class JobResult(BaseModel):
     quality_metrics: Dict[str, Any] = {}
     research_steps: List[str] = []
     timing: Dict[str, float] = {}
+    error: Optional[str] = None
 
 
 class JobSubmitResponse(BaseModel):
@@ -38,6 +39,7 @@ class JobStatusResponse(BaseModel):
     status: str
     progress: int = 0
     current_step: str = ""
+    error: Optional[str] = None
 
 
 class JobFailureReport(BaseModel):

@@ -12,20 +12,25 @@ class EmbeddingService:
     
     def __new__(cls):
         if cls._instance is None:
-            logger.info("Initializing HuggingFace Embedding model: BAAI/bge-small-en-v1.5")
             cls._instance = super(EmbeddingService, cls).__new__(cls)
-            
+            cls._instance._embeddings = None
+        return cls._instance
+
+    @property
+    def embeddings(self):
+        if self._embeddings is None:
+            logger.info("Initializing HuggingFace Embedding model: BAAI/bge-small-en-v1.5")
             # Initialize model (cpu is explicitly defined for local dev, can scale to cuda in production)
             model_kwargs = {'device': 'cpu'}
             # Normalize embeddings for cosine similarity
             encode_kwargs = {'normalize_embeddings': True}
             
-            cls._instance.embeddings = HuggingFaceEmbeddings(
+            self._embeddings = HuggingFaceEmbeddings(
                 model_name="BAAI/bge-small-en-v1.5",
                 model_kwargs=model_kwargs,
                 encode_kwargs=encode_kwargs
             )
-        return cls._instance
+        return self._embeddings
 
     def embed_text(self, text: str) -> list[float]:
         """Generate embedding for a single text."""

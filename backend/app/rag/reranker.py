@@ -14,14 +14,20 @@ class RerankerService:
     
     def __new__(cls):
         if cls._instance is None:
-            logger.info("Initializing HuggingFace Reranker model: BAAI/bge-reranker-base")
             cls._instance = super(RerankerService, cls).__new__(cls)
+            cls._instance._model = None
+        return cls._instance
+
+    @property
+    def model(self):
+        if self._model is None:
+            logger.info("Initializing HuggingFace Reranker model: BAAI/bge-reranker-base")
             try:
-                cls._instance.model = CrossEncoder('BAAI/bge-reranker-base', max_length=512, device='cpu')
+                self._model = CrossEncoder('BAAI/bge-reranker-base', max_length=512, device='cpu')
             except Exception as e:
                 logger.error(f"Failed to initialize reranker: {str(e)}")
-                cls._instance.model = None
-        return cls._instance
+                self._model = None
+        return self._model
 
     def rerank_results(self, query: str, retrieved_chunks: List[Dict[str, Any]], top_k: int = 5) -> List[Dict[str, Any]]:
         """

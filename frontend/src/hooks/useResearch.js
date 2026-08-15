@@ -51,7 +51,7 @@ export function useResearch() {
   useEffect(() => {
     let intervalId;
     if (status === 'running') {
-      intervalId = setInterval(pollStatus, 2000); // Poll every 2 seconds
+      intervalId = setInterval(pollStatus, 1000);
     }
     return () => {
       if (intervalId) clearInterval(intervalId);
