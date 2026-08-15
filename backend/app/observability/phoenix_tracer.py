@@ -190,10 +190,16 @@ class _NoopSpan:
 
 
 def get_phoenix_url() -> Optional[str]:
-    """Return the Phoenix UI URL if the embedded session is running."""
+    """Return the Phoenix UI URL if running."""
+    if not is_enabled():
+        return None
     if _phoenix_session:
         port = int(os.getenv("PHOENIX_PORT", "6006"))
         return f"http://localhost:{port}"
+    # If we are using an external collector container mapped to 6006, return localhost:6006 for the browser
+    collector_endpoint = os.getenv("PHOENIX_COLLECTOR_ENDPOINT", "")
+    if collector_endpoint:
+        return "http://localhost:6006"
     return None
 
 

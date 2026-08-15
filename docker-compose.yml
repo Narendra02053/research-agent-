@@ -7,19 +7,21 @@ services:
     container_name: research_backend
     ports:
       - "8000:8000"
-      - "6006:6006"
     environment:
       - ENVIRONMENT=production
       - REDIS_HOST=redis
       - REDIS_PORT=6379
       - QDRANT_HOST=qdrant
       - QDRANT_PORT=6333
+      - PHOENIX_COLLECTOR_ENDPOINT=http://phoenix:6006/v1/traces
     env_file:
       - ./backend/.env
     depends_on:
       redis:
         condition: service_healthy
       qdrant:
+        condition: service_healthy
+      phoenix:
         condition: service_healthy
     networks:
       - research_net
@@ -41,7 +43,7 @@ services:
       - REDIS_PORT=6379
       - QDRANT_HOST=qdrant
       - QDRANT_PORT=6333
-      - PHOENIX_COLLECTOR_ENDPOINT=http://backend:6006
+      - PHOENIX_COLLECTOR_ENDPOINT=http://phoenix:6006/v1/traces
     env_file:
       - ./backend/.env
     depends_on:
@@ -49,8 +51,24 @@ services:
         condition: service_healthy
       backend:
         condition: service_started
+      phoenix:
+        condition: service_healthy
     networks:
       - research_net
+
+  phoenix:
+    image: arizephoenix/phoenix:latest
+    container_name: research_phoenix
+    ports:
+      - "6006:6006"
+      - "4317:4317"
+    networks:
+      - research_net
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:6006/"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
 
   frontend:
     build:
